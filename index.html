@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trivia Farm</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+:root{font-family:Trebuchet MS,Segoe UI,Arial,sans-serif;color:#07506b;font-synthesis:none}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100dvh;background:radial-gradient(ellipse at 17% 9%,#e6ffff 0%,transparent 30%),linear-gradient(165deg,#70e5f6 0%,#16b6d9 33%,#087db9 68%,#064f91 100%);overflow-x:hidden}body:before{content:'';position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(112deg,transparent 0 80px,#ffffff13 100px,transparent 170px),radial-gradient(ellipse at 75% 0%,#ffffff8a,transparent 42%);z-index:0}.ocean{position:fixed;inset:0;overflow:hidden;pointer-events:none}.bubble{animation-duration:calc(var(--speed)/3);position:absolute;bottom:-100px;width:var(--size);height:var(--size);left:var(--left);border-radius:50%;border:1px solid #ffffffa8;background:radial-gradient(circle at 28% 25%,#fff 0 5%,#ffffff8c 7%,#ffffff13 30%,#91f7ff18 65%,#ffffff75 100%);box-shadow:inset -5px -8px 15px #20bce052,0 0 12px #d8ffff80;animation:rise var(--speed) linear infinite;animation-delay:var(--delay)}@keyframes rise{to{transform:translate3d(45px,-115vh,0)}}.shell{position:relative;z-index:1;width:min(1100px,100%);margin:24px auto;padding:20px;border:1px solid #ffffffdc;border-radius:32px;background:linear-gradient(140deg,#ffffff9c,#d9faff7d 40%,#ffffff5e);box-shadow:0 24px 80px #003b7d5c,inset 0 2px 2px #fff;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:11px}.logo{display:grid;place-items:center;width:55px;height:55px;font-size:31px;border-radius:19px;background:linear-gradient(#fff,#a4f5ff 48%,#1aabdc 51%,#087fbd);border:2px solid white;box-shadow:0 5px 15px #006a9a66,inset 0 2px 3px white}.brand h1{margin:0;color:#075277;font-size:clamp(20px,2.7vw,29px);line-height:1.1;text-shadow:0 1px #fff;font-weight:900}.brand p{margin:5px 0 0;font-size:12px;font-weight:700;color:#18728e}.badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.pill{border:1px solid white;border-radius:999px;padding:9px 13px;font-weight:900;font-size:12px;color:#075476;background:linear-gradient(#fff,#e2faff 48%,#a6eafa 49%,#70cde8);box-shadow:inset 0 2px #fff,0 4px 10px #067ca43b;white-space:nowrap}.coin{background:linear-gradient(#fffde9,#ffe6a1 48%,#ffc64d 50%,#f6a71c);color:#7c4705}.layout{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:16px}.glass{border:1.5px solid #fff;border-radius:26px;background:linear-gradient(150deg,#ffffffd9,#e9ffffb0 55%,#d4f7ffb8);box-shadow:0 10px 24px #00688a2b,inset 0 2px 2px #fff;overflow:hidden}.habitat{position:relative;min-height:360px;padding:18px;background:radial-gradient(ellipse at 50% 22%,#faffff 0%,#b4faff 42%,#50c9e4 75%,#1296bf 100%)}.habitat:before{content:'';position:absolute;left:-15%;right:-15%;bottom:-85px;height:175px;border-radius:50%;background:linear-gradient(#b5ffce,#42c9a0 50%,#0a9b8b);box-shadow:0 -9px 26px #e5ffdfb0}.habitat:after{content:'';position:absolute;left:8%;right:8%;top:18%;height:55%;border-radius:50%;border:2px solid #ffffff55;box-shadow:0 0 0 18px #ffffff0c,0 0 0 38px #ffffff0b;pointer-events:none}.habitat-top,.progress,.pet{position:relative;z-index:2}.habitat-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.eyebrow{font-size:11px;letter-spacing:1.5px;font-weight:900;text-transform:uppercase;color:#086687}.mood{font-size:11px;font-weight:900;color:#07617e;background:#ffffffb0;border:1px solid white;border-radius:100px;padding:7px 10px}.pet{height:225px;display:flex;align-items:center;justify-content:center;flex-direction:column}.pet img{width:min(210px,65%);height:190px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 14px 9px #006d7b65);transition:transform .1s}.sprite-tag{font-size:10px;font-weight:700;color:#126c81;background:#ffffffad;padding:4px 9px;border-radius:50px}.pet-fallback{font-size:115px;filter:drop-shadow(0 10px 10px #006d7b55)}.progress{border:1px solid #ffffffab;background:#ffffffb0;border-radius:17px;padding:12px}.progress-row,.stat-row{display:flex;justify-content:space-between;gap:10px;font-size:12px;font-weight:900;margin-bottom:7px}.track{height:13px;background:#1c86a53b;border:1px solid #ffffffc9;border-radius:99px;overflow:hidden;box-shadow:inset 0 2px 4px #07577633}.fill{height:100%;border-radius:99px;background:linear-gradient(#eaffb7,#72e56b 45%,#17b88d 50%,#05a5a0);box-shadow:inset 0 2px #ffffff8f;transition:width .15s}.stats{margin-top:14px;padding:16px 18px}.stats h3{margin:0 0 13px;font-size:12px;letter-spacing:1.3px;text-transform:uppercase}.stat{margin-top:12px}.stat .track{height:11px}.quiz{padding:22px;display:flex;flex-direction:column;min-height:100%}.quiz-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:19px}.category{font-size:11px;font-weight:900;letter-spacing:.5px;border-radius:99px;padding:9px 12px;background:linear-gradient(#f5ffff,#b9f6fa);border:1px solid white;color:#056b82}.score{font-size:12px;font-weight:900;color:#086381}.quiz h2{font-size:clamp(22px,2.6vw,30px);line-height:1.25;margin:0 0 23px;color:#07526b;text-shadow:0 1px white}.options{display:grid;gap:11px}.answer{display:flex;align-items:center;gap:13px;width:100%;min-height:62px;text-align:left;padding:11px 14px;border:1.5px solid #fff;border-radius:17px;background:linear-gradient(180deg,#ffffff 0%,#eaffff 45%,#bceef9 49%,#96dcf2 100%);box-shadow:0 5px 0 #2795b7,0 8px 12px #006d9540,inset 0 2px 2px white;color:#07516d;font-size:15px;font-weight:900;cursor:pointer;transition:transform .053s,box-shadow .053s}.answer:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 7px 0 #2795b7,0 11px 14px #006d9540}.answer:active:not(:disabled){transform:translateY(3px);box-shadow:0 2px 0 #2795b7}.answer:focus-visible{outline:3px solid #ffb72c;outline-offset:3px}.letter{flex:none;width:34px;height:34px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(#54cbe8,#087eb9);border:1px solid white;color:white;box-shadow:inset 0 2px #ffffff80}.answer-correct{background:linear-gradient(#f4ffdc,#8ef2a8)!important;border-color:#40c975!important}.answer-incorrect{background:linear-gradient(#fff4f2,#ffb8b8)!important;border-color:#f07878!important}.answer:disabled{cursor:default}.feedback{font-size:13px;font-weight:800;min-height:43px;line-height:1.45;color:#0a7082;margin:19px 0 0}.quiz-foot{margin-top:auto;padding-top:16px;border-top:1px solid #6dc6d35c;display:flex;justify-content:space-between;gap:10px;font-size:11px;font-weight:800;color:#15778a}.reward{white-space:nowrap;color:#087d68}.flying-carrot{position:fixed;z-index:9999;display:grid;place-items:center;width:44px;height:44px;font-size:2.5rem;line-height:1;pointer-events:none;filter:drop-shadow(0 5px 7px #78410055);animation:flyToBunny 300ms cubic-bezier(.2,.75,.25,1) forwards}@keyframes flyToBunny{0%{opacity:1;transform:translate3d(0,0,0) scale(.75) rotate(-25deg)}48%{opacity:1;transform:translate3d(calc(var(--flight-x)*.48),calc(var(--flight-y)*.48 - 65px),0) scale(1.35) rotate(175deg)}100%{opacity:0;transform:translate3d(var(--flight-x),var(--flight-y),0) scale(.55) rotate(390deg)}}@keyframes bunnyMunch{0%,100%{transform:scale(1) rotate(0)}25%{transform:scale(1.17) rotate(-7deg)}50%{transform:scale(.96) rotate(6deg)}75%{transform:scale(1.1) rotate(-3deg)}}.bunny-munch{animation:bunnyMunch 187ms ease-in-out;transform-origin:center}@media(max-width:720px){body{background-attachment:fixed}.shell{margin:0;min-height:100dvh;border-radius:0;padding:12px 12px 24px}.topbar{align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}.logo{width:43px;height:43px;font-size:25px;border-radius:14px}.brand h1{font-size:21px}.brand p{font-size:10px}.badges{width:100%;justify-content:space-between}.pill{font-size:11px;padding:7px 12px}.layout{grid-template-columns:1fr;gap:12px}.habitat{min-height:0;padding:12px 14px}.habitat:before{bottom:-108px}.pet{height:150px}.pet img{height:134px;width:145px}.pet-fallback{font-size:85px}.sprite-tag{display:none}.progress{padding:9px 11px}.stats{margin-top:10px;padding:11px 14px}.stats h3{margin-bottom:6px}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.stat{margin-top:3px}.quiz{padding:17px 14px 19px}.quiz-head{margin-bottom:14px}.quiz h2{font-size:21px;margin-bottom:17px}.answer{min-height:56px;padding:9px 12px;font-size:14px}.options{gap:10px}.feedback{margin-top:17px}.quiz-foot{font-size:10px}}@media(max-width:360px){.brand h1{font-size:18px}.mood{font-size:10px}.quiz h2{font-size:19px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}.bubble{display:none}}
+
+/* Playful arcade blaster: no injury imagery. */
+.arcade-blaster{position:fixed;z-index:9997;font-size:46px;line-height:1;pointer-events:none;filter:drop-shadow(0 5px 8px #064e7c77);transform-origin:75% 55%;animation:blasterRecoil  .183s ease-in-out forwards}
+.arcade-shot{position:fixed;z-index:9998;width:19px;height:19px;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 30% 25%,#fff,#fff9a1 20%,#ffb321 55%,#f56c30);box-shadow:0 0 0 5px #fff5,0 0 20px 8px #ffdc5a;animation:arcadeShot 0.217s ease-in forwards}
+.arcade-impact{position:fixed;z-index:9999;pointer-events:none;font-size:54px;line-height:1;animation:impactPop .167s ease-out forwards}
+.bunny-hit{animation:bunnyHit  .183s ease-in-out!important}
+@keyframes blasterRecoil{0%,100%{transform:translateX(0) rotate(-10deg)}30%{transform:translateX(-14px) rotate(-22deg)}60%{transform:translateX(3px) rotate(-6deg)}}
+@keyframes arcadeShot{0%{opacity:1;transform:translate(0,0) scale(.7)}100%{opacity:1;transform:translate(var(--shot-x),var(--shot-y)) scale(1.2)}}
+@keyframes impactPop{0%{opacity:0;transform:scale(.2) rotate(-30deg)}40%{opacity:1;transform:scale(1.3) rotate(15deg)}100%{opacity:0;transform:scale(1.8) rotate(30deg)}}
+@keyframes bunnyHit{0%,100%{transform:translateX(0) rotate(0)}25%{transform:translateX(-10px) rotate(-8deg)}50%{transform:translateX(10px) rotate(8deg)}75%{transform:translateX(-5px) rotate(-4deg)}}
+@media(prefers-reduced-motion:reduce){.arcade-blaster,.arcade-shot,.arcade-impact,.bunny-hit{animation-duration:.001ms!important}}
+
+/* Hypercute pixel garden habitat */
+.habitat{background:linear-gradient(180deg,#d7faff,#b7f1d5)!important}
+.habitat:before{background:transparent!important;box-shadow:none!important}
+.habitat:after{border-color:#ffffff90!important;box-shadow:none!important;pointer-events:none}
+.habitat .eyebrow{color:#076d73}
+.habitat .mood{color:#07506b}
+.pet{background:#7adba2 url('bunny_pixel_garden_vivid.png') center center/100% 100% no-repeat;border:4px solid #fff9df;border-radius:18px;box-shadow:inset 0 0 0 3px #65cba3,0 5px 18px #218f9d40;isolation:isolate}
+.pet:before{content:'✦  ♡  ✿';position:absolute;left:9px;top:7px;font:18px monospace;color:#fff;letter-spacing:14px;text-shadow:0 0 6px #fff;z-index:1;pointer-events:none;animation:twinkle 1s ease-in-out infinite alternate}
+.pet:after{content:'🦋';position:absolute;right:12%;top:15%;font-size:20px;z-index:1;pointer-events:none;animation:butterfly 1.67s ease-in-out infinite alternate}
+@keyframes twinkle{to{opacity:.25;transform:translateY(5px)}}
+@keyframes butterfly{to{transform:translate(-45px,18px) rotate(-12deg)}}
+#bunny-walker{z-index:2;filter:drop-shadow(2px 5px 0 #317d5870)}
+.sprite-tag{z-index:3}
+@media(prefers-reduced-motion:reduce){.pet:before,.pet:after{animation:none}}
+
+/* Free-roaming bunny: the walker moves, while the image flips independently. */
+.pet{position:relative;overflow:hidden;display:block;height:225px}
+#bunny-walker{position:absolute;left:0;top:0;width:112px;height:112px;will-change:transform;pointer-events:none}
+#bunny-sprite-img{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated;transform:scaleX(var(--facing,1));transition:filter .067s;filter:drop-shadow(0 7px 5px #0005)}
+.sprite-tag{position:absolute;bottom:0;left:50%;transform:translateX(-50%);white-space:nowrap}
+.coin-float{position:absolute;z-index:10002;pointer-events:none;color:#39ff14;font:700 16px Arial,sans-serif;white-space:nowrap;opacity:1;transform:translateY(0);text-shadow:0 0 5px #39ff14,0 1px 3px #000;will-change:transform,opacity}
+@media(max-width:720px){.pet{height:155px}#bunny-walker{width:82px;height:82px}}
+
+/* Garden-first layout: maximize the playfield, minimize quiz chrome. */
+.shell{width:min(1480px,100%);padding:14px;margin:12px auto}
+.topbar{margin-bottom:12px}
+.layout{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:12px}
+.habitat{padding:12px;min-height:0}
+.habitat-top{margin-bottom:8px}
+.pet{height:clamp(330px,35vw,510px)}
+#bunny-walker{width:105px;height:105px}
+.progress{margin-top:8px;padding:9px 12px}
+.stats{margin-top:10px;padding:12px 14px}
+.stats h3{margin-bottom:7px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{margin-top:4px}
+.quiz{padding:14px 15px;justify-content:flex-start}
+.quiz-head{margin-bottom:11px}
+.category{padding:6px 10px;font-size:10px}
+.score{font-size:11px}
+.quiz h2{font-size:clamp(17px,1.6vw,23px);line-height:1.28;margin:0 0 13px}
+.options{gap:8px}
+.answer{min-height:45px;padding:7px 10px;border-radius:12px;font-size:13px;gap:9px;box-shadow:0 3px 0 #2795b7,0 5px 9px #006d9530,inset 0 1px 2px white}
+.letter{width:27px;height:27px;border-radius:9px;font-size:12px}
+.feedback{margin:13px 0 0;min-height:30px;font-size:12px}
+.quiz-foot{margin-top:14px;padding-top:10px;font-size:10px}
+@media(max-width:720px){
+ .shell{margin:0;padding:9px 9px 18px}
+ .layout{grid-template-columns:minmax(0,1fr);gap:9px}
+ .habitat{padding:10px}
+ .pet{height:clamp(235px,66vw,350px)}
+ #bunny-walker{width:85px;height:85px}
+ .stats{margin-top:8px;padding:9px 11px}
+ .quiz{padding:12px}
+ .quiz-head{margin-bottom:9px}
+ .quiz h2{font-size:18px;margin-bottom:11px}
+ .answer{min-height:43px;padding:7px 9px;font-size:13px}
+ .options{gap:7px}
+ .feedback{margin-top:11px;min-height:25px}
+ .quiz-foot{margin-top:10px;padding-top:9px}
+}
+
+/* Companion puppy and treat choice */
+#cat-walker{position:absolute;left:0;top:0;width:112px;height:112px;z-index:3;pointer-events:none;will-change:transform}
+#cat-sprite-img{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated;transform:scaleX(var(--facing,1));filter:drop-shadow(0 7px 5px #0005)}
+#dog-walker{position:absolute;left:0;top:0;width:112px;height:112px;z-index:3;pointer-events:none;will-change:transform}
+#dog-sprite-img{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated;transform:scaleX(var(--facing,1));filter:drop-shadow(0 7px 5px #0005)}
+.treat-picker[hidden]{display:none!important}
+.treat-picker{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:12px;border:2px solid #ffffff;border-radius:17px;background:linear-gradient(135deg,#f6ffdf,#a7f5e4);box-shadow:0 6px 20px #007d9240;margin-top:10px}
+.treat-heading{flex-basis:100%;text-align:center;font-size:14px;font-weight:900;color:#087557}
+.treat-button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px;padding:8px 17px;border:2px solid white;border-radius:25px;font-weight:900;color:#07516d;background:linear-gradient(#fff,#d7fbff 48%,#80d7f1 50%,#3bb0df);box-shadow:0 4px 0 #1389af;cursor:pointer}
+.treat-button:hover{filter:brightness(1.07)}.treat-button:focus-visible{outline:3px solid orange;outline-offset:3px}
+#feed-bunny{background:linear-gradient(#fff9e2,#ffe3a4 48%,#ffc84c 50%,#ffa724);color:#784b00;box-shadow:0 4px 0 #d48b13}
+@media(max-width:720px){#dog-walker{width:85px;height:85px}.treat-button{flex:1;padding:7px 9px;font-size:13px}.treat-picker{gap:7px}}
+ .flying-carrot .bone-art{display:block;width:48px;height:48px;filter:drop-shadow(0 3px 5px #81532166)}
+
+/* Kawaii glossy pet selector */
+.pet-choice{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:8px 11px;margin:0 0 11px;border:2px solid #fff;border-radius:22px;background:linear-gradient(145deg,#fffaf9e8,#d8fcffeb 45%,#b3f3e6df);box-shadow:0 5px 14px #168aa83b,inset 0 2px 2px #fff}
+.pet-choice-label{font-size:12px;font-weight:900;color:#0b6880;white-space:nowrap}
+.pet-switch{display:flex;gap:4px;flex:1;min-width:205px;padding:4px;border-radius:999px;background:#87d8e5a3;border:1px solid white;box-shadow:inset 0 2px 6px #006a8540}
+.pet-switch button{flex:1;min-height:40px;border:2px solid transparent;border-radius:999px;background:transparent;color:#08617b;font:900 13px Trebuchet MS,Arial,sans-serif;cursor:pointer;transition:background .067s,transform .067s,box-shadow .067s}
+.pet-switch button[aria-pressed="true"]{background:linear-gradient(#fff,#fff8d9 46%,#ffd2e7 50%,#ffadd5);border-color:#fff;box-shadow:0 3px 8px #d55a9a65,inset 0 2px 1px #fff;transform:scale(1.025);color:#944066}
+.pet-switch button:focus-visible{outline:3px solid #f7a300;outline-offset:2px}
+.pet-choice-hint{width:100%;text-align:center;color:#157b83;font-size:11px;font-weight:800}
+@media(max-width:720px){.pet-choice{gap:5px;padding:7px}.pet-choice-label{font-size:11px}.pet-switch button{min-height:39px}}
+
+/* Mobile gameboard: garden + all four answers in the same viewport. */
+@media (max-width:720px){
+  html,body{min-height:100%;overflow-x:hidden}
+  .shell{padding:5px 7px 9px;margin:0;min-height:100dvh;border-radius:0}
+  .topbar{margin:0 0 5px;gap:4px;align-items:center;flex-wrap:nowrap}
+  .brand{gap:6px;min-width:0}
+  .logo{width:30px;height:30px;border-radius:10px;font-size:19px;flex:none}
+  .brand h1{font-size:clamp(13px,3.7vw,18px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .brand p{display:none}
+  .badges{width:auto;gap:4px;flex-wrap:nowrap;flex:none}
+  .pill{font-size:10px;padding:5px 7px}
+  #stage-badge{display:none}
+  .pet-choice{margin:0 0 5px!important;padding:4px 6px!important;gap:5px!important;border-radius:15px}
+  .pet-choice-label{font-size:10px}
+  .pet-switch button{min-height:30px!important;padding:4px 9px!important;font-size:11px!important}
+  .pet-choice-hint{display:none}
+  .layout{display:flex;flex-direction:column;gap:6px}
+  .habitat{padding:6px;border-radius:18px}
+  .habitat-top{margin:0 0 4px}
+  .eyebrow{font-size:9px;letter-spacing:.5px}
+  .mood{font-size:9px;padding:3px 7px}
+  .pet{height:clamp(145px,28dvh,245px);border-width:3px;border-radius:13px}
+  #bunny-walker,#dog-walker,#cat-walker{width:clamp(58px,12vw,78px);height:clamp(58px,12vw,78px)}
+  .progress{margin-top:4px;padding:5px 8px;border-radius:11px}
+  .progress-row{font-size:10px;margin-bottom:3px}
+  .progress-row[style]{margin-top:4px!important}
+  .progress .track{height:7px}
+  .stats{display:none}
+  .quiz{padding:9px 10px 8px;border-radius:18px;min-height:0}
+  .quiz-head{margin-bottom:5px}
+  .category{padding:4px 8px;font-size:10px}
+  .score{font-size:10px}
+  .quiz h2{font-size:clamp(15px,4vw,18px);line-height:1.18;margin-bottom:8px}
+  .options{gap:6px}
+  .answer{min-height:37px;padding:5px 8px;border-radius:11px;font-size:12px;gap:8px;box-shadow:0 2px 0 #2795b7}
+  .letter{width:25px;height:25px;border-radius:8px;font-size:11px}
+  .feedback{margin:8px 0 0;min-height:0;font-size:11px;line-height:1.25}
+  .quiz-foot{display:none}
+}
+@media(max-width:720px) and (max-height:740px){
+  .pet{height:clamp(115px,24dvh,175px)}
+  .answer{min-height:33px;padding:3px 7px}
+  .options{gap:4px}
+  .quiz h2{font-size:15px;margin-bottom:6px}
+  .feedback{margin-top:5px}
+}
+</style>
+<style>
+/* Streamlined play view: keep growth and wellbeing in game state, off the HUD. */
+.progress,.stats{display:none!important}
+.pet-generation{position:absolute;left:0;top:0;width:112px;height:112px;z-index:4;pointer-events:auto;will-change:transform;filter:drop-shadow(0 7px 5px #0005)}
+.generation-sprite{display:block;width:100%;height:100%;object-fit:contain;image-rendering:pixelated}
+.pet-generation-cat{width:126px;height:126px}
+@media(max-width:720px){.pet-generation{width:clamp(58px,12vw,78px);height:clamp(58px,12vw,78px)}.pet-generation-cat{width:clamp(64px,14vw,88px);height:clamp(64px,14vw,88px)}}
+</style>
+<link rel="stylesheet" href="store.css">
+</head>
+<body>
+<div class="ocean" aria-hidden="true"><span class="bubble" style="--left:5%;--size:35px;--speed:13s;--delay:-5s"></span><span class="bubble" style="--left:21%;--size:18px;--speed:17s;--delay:-9s"></span><span class="bubble" style="--left:45%;--size:52px;--speed:19s;--delay:-12s"></span><span class="bubble" style="--left:71%;--size:24px;--speed:15s;--delay:-3s"></span><span class="bubble" style="--left:91%;--size:45px;--speed:20s;--delay:-15s"></span></div>
+<main class="shell">
+<header class="topbar"><div class="brand"><div class="logo" aria-hidden="true">🐰🐶</div><div><h1>Trivia Farm</h1><p>✨ Learn • Feed • Grow your little friends</p></div></div><div class="badges game-status-footer"><div class="pill player-level" id="player-level" aria-live="polite">⭐ Level 1</div><button type="button" class="pill" id="open-store">🛍️ Store</button><button type="button" class="pill" id="sound-toggle" aria-pressed="true" title="Turn pet sounds on or off">🔊 Sounds On</button><div class="pill coin">🪙 <span id="coin-count">200</span> Coins</div><div class="pill" id="stage-badge">🐰 1/48 · 🐶 1/24</div></div></header>
+<div class="pet-choice" aria-label="Choose which pet to feed"><span class="pet-choice-label">💗 Feed my...</span><div class="pet-switch" role="group" aria-label="Selected pet"><button type="button" id="select-dog" aria-pressed="true">🐶 Puppy 🦴</button><button type="button" id="select-bunny" aria-pressed="false">🐰 Bunny 🥕</button><button type="button" id="select-cat" aria-pressed="false">🐱 Kitten 🐟</button></div><span class="pet-choice-hint" id="pet-choice-hint">✨ Puppy is selected! Correct answers send a cute bone.</span></div><div class="layout"><section aria-label="Your bunny"><div class="glass habitat"><div class="habitat-top"><span class="eyebrow">🌸 Bunny & Puppy dream garden</span><span class="mood" id="bunny-mood">Mood: Curious 🐰</span></div><div class="pet" id="bunny-target"><div id="bunny-walker"><img id="bunny-sprite-img" src="sprite_06.png" alt="Bunny life stage sprite"></div><div id="dog-walker"><img id="dog-sprite-img" src="doggy01.png" alt="Puppy life stage sprite"></div><div id="cat-walker"><img id="cat-sprite-img" src="kitten01.png" alt="Kitten life stage sprite"></div><span class="sprite-tag" id="sprite-filename-tag">sprite_06.png</span></div><div class="progress"><div class="progress-row"><span id="stage-title-label">🐰 Bunny · Stage 1 / 48</span><span id="xp-text">1 / 48</span></div><div class="track"><div class="fill" id="xp-bar-inner" style="width:2.08%"></div></div><div class="progress-row" style="margin-top:9px"><span id="dog-stage-label">🐶 Puppy · Stage 1 / 24</span><span id="dog-xp-text">1 / 24</span></div><div class="track"><div class="fill" id="dog-xp-bar" style="width:4.17%"></div></div><div class="progress-row" style="margin-top:9px"><span id="cat-stage-label">🐱 Kitten · Stage 1 / 24</span><span id="cat-xp-text">1 / 24</span></div><div class="track"><div class="fill" id="cat-xp-bar" style="width:4.17%"></div></div></div></div><div class="glass stats"><h3>💗 Your bunny's wellbeing</h3><div class="stats-grid"><div class="stat"><div class="stat-row"><span>🥕 Hunger</span><span id="val-hunger">70%</span></div><div class="track"><div class="fill" id="bar-hunger" style="width:70%"></div></div></div><div class="stat"><div class="stat-row"><span>💙 Happiness</span><span id="val-happy">80%</span></div><div class="track"><div class="fill" id="bar-happy" style="width:80%;background:linear-gradient(#e8ffff,#7bdcff 45%,#199ed8 50%,#087fc5)"></div></div></div></div></div></section>
+<section class="glass quiz" aria-label="Trivia quiz"><div><div class="quiz-head"><span id="quiz-category" class="category">🔬 Science</span><span id="quiz-score" class="score">⭐ Correct Answers: 0</span></div><h2 id="quiz-question">Loading question...</h2><div id="quiz-options" class="options"></div><p id="quiz-feedback" class="feedback" role="status" aria-live="polite">Answer correctly to feed your selected puppy! 🐶🦴</p></div><div class="quiz-foot"><span>💗 Pick a pet above; correct answers feed it automatically!</span><span class="reward" id="difficulty-reward">Easy · +20 🪙 · 1 food</span></div><div class="difficulty-picker" role="group" aria-label="Question difficulty" style="display:flex;flex-wrap:wrap;gap:8px;width:100%;max-width:100%;box-sizing:border-box;margin-top:10px;padding:10px;border:1px solid #c4edf0;border-radius:18px;background:linear-gradient(145deg,#f6ffff,#dcf8ee);overflow:visible"><span style="flex-basis:100%;text-align:center;font-weight:900;color:#07506b">Choose difficulty</span><button type="button" data-difficulty="easy" aria-pressed="true" style="flex:1 1 0;min-width:0;min-height:44px;padding:8px 4px;border:2px solid white;border-radius:14px;background:#dff8dc;color:#28653b;font:900 12px Trebuchet MS,Arial,sans-serif;box-shadow:0 3px 7px #07506b22;touch-action:manipulation">Easy</button><button type="button" data-difficulty="medium" aria-pressed="false" style="flex:1 1 0;min-width:0;min-height:44px;padding:8px 4px;border:2px solid white;border-radius:14px;background:#d9f3ff;color:#175779;font:900 12px Trebuchet MS,Arial,sans-serif;box-shadow:0 3px 7px #07506b22;touch-action:manipulation">Medium</button><button type="button" data-difficulty="hard" aria-pressed="false" style="flex:1 1 0;min-width:0;min-height:44px;padding:8px 4px;border:2px solid white;border-radius:14px;background:#ffe2ed;color:#87415c;font:900 12px Trebuchet MS,Arial,sans-serif;box-shadow:0 3px 7px #07506b22;touch-action:manipulation">Hard</button></div></section></div></main>
+<script src="question-banks.js"></script>
+<script>
+    // Create audio only after the first interaction (browser autoplay friendly).
+    let audioCtx = null;
+
+    function getAudioContext() {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return null;
+      if (!audioCtx) audioCtx = new AudioContextClass();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playChime(freq = 440, type = 'sine') {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.3);
+    }
+
+    function playMunchSound() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(150, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.15);
+    }
+
+
+    // Cute, original synthesized pet sounds: no WAV or MP3 assets required.
+    let petSoundsEnabled = true;
+    const soundToggle = document.getElementById('sound-toggle');
+    soundToggle.addEventListener('click', () => {
+      petSoundsEnabled = !petSoundsEnabled;
+      soundToggle.textContent = petSoundsEnabled ? '🔊 Sounds On' : '🔇 Sounds Off';
+      soundToggle.setAttribute('aria-pressed', String(petSoundsEnabled));
+      if (petSoundsEnabled) playPetVoice('bunny');
+    });
+
+    function petTone(ctx, start, duration, f0, f1, volume, waveform = 'sine') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const t = ctx.currentTime + start;
+      osc.type = waveform;
+      osc.frequency.setValueAtTime(f0, t);
+      osc.frequency.exponentialRampToValueAtTime(Math.max(40, f1), t + duration);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(Math.max(0.0002, volume), t + Math.min(.025, duration / 4));
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + duration + .015);
+    }
+
+    function playPetVoice(kind) {
+      if (!petSoundsEnabled) return;
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const variation = 0.96 + Math.random() * 0.08;
+      if (kind === 'bunny') {
+        petTone(ctx, 0, .13, 780 * variation, 1050 * variation, .065, 'sine');
+        petTone(ctx, .16, .16, 920 * variation, 670 * variation, .055, 'sine');
+        petTone(ctx, .35, .11, 850 * variation, 1130 * variation, .045, 'triangle');
+      } else if (kind === 'cat') {
+        petTone(ctx, 0, .12, 560 * variation, 1050 * variation, .095, 'sine');
+        petTone(ctx, .10, .28, 1050 * variation, 470 * variation, .10, 'triangle');
+        petTone(ctx, .10, .25, 1580 * variation, 760 * variation, .025, 'sine');
+        petTone(ctx, .32, .12, 520 * variation, 740 * variation, .045, 'sine');
+      } else {
+        // Two soft, playful woofs with a brighter bark-like harmonic.
+        for (const [start, pitch] of [[0, 520], [.20, 610]]) {
+          petTone(ctx, start, .16, pitch * variation, 250 * variation, .12, 'triangle');
+          petTone(ctx, start + .01, .13, pitch * 1.65 * variation, 420 * variation, .035, 'sine');
+        }
+      }
+    }
+
+    function playPetHurt(kind){
+      if(!petSoundsEnabled)return;const ctx=getAudioContext();if(!ctx)return;
+      const base=kind==='dog'?430:kind==='cat'?620:760,variation=.96+Math.random()*.08;
+      // A tiny startled squeak, kept soft and playful.
+      petTone(ctx,0,.12,base*variation,(base+360)*variation,.07,'sine');
+      petTone(ctx,.10,.16,(base+360)*variation,(base+90)*variation,.055,'triangle');
+    }
+
+    // Tap either animal to hear its voice, even between quiz questions.
+    for (const [kind, id] of [['bunny', 'bunny-walker'], ['dog', 'dog-walker'], ['cat', 'cat-walker']]) {
+      const walker = document.getElementById(id);
+      if (walker) {
+        walker.style.pointerEvents = 'auto';
+        walker.style.cursor = 'pointer';
+        walker.setAttribute('role', 'button');
+        walker.setAttribute('tabindex', '0');
+        walker.setAttribute('aria-label', `Hear the ${kind} make a cute sound`);
+        walker.addEventListener('click', () => playPetVoice(kind));
+        walker.addEventListener('keydown', event => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            playPetVoice(kind);
+          }
+        });
+      }
+    }
+
+    // All 48 Sequential Sprite File Names from your folder
+    const allSpriteFiles = [
+      "sprite_06.png", "sprite_08.png", "sprite_09.png", "sprite_10.png", "sprite_11.png", "sprite_12.png", "sprite_13.png", "sprite_14.png",
+      "sprite_20.png", "sprite_21.png", "sprite_22.png", "sprite_23.png", "sprite_24.png", "sprite_25.png", "sprite_26.png", "sprite_27.png",
+      "sprite_32.png", "sprite_33.png", "sprite_34.png", "sprite_35.png", "sprite_36.png", "sprite_37.png", "sprite_38.png", "sprite_39.png",
+      "sprite_44.png", "sprite_45.png", "sprite_46.png", "sprite_47.png", "sprite_48.png", "sprite_49.png", "sprite_50.png", "sprite_51.png",
+      "sprite_54.png", "sprite_55.png", "sprite_56.png", "sprite_57.png", "sprite_58.png", "sprite_59.png", "sprite_60.png", "sprite_61.png",
+      "sprite_67.png", "sprite_68.png", "sprite_69.png", "sprite_70.png", "sprite_71.png", "sprite_72.png", "sprite_73.png", "sprite_74.png"
+    ];
+
+    let currentSpriteIdx = 0;
+    let coins = 200;
+    let correctCount = 0;
+    function getPlayerLevel(){return Math.floor(correctCount/10)+1;}
+    function updatePlayerLevel(){document.getElementById('player-level').textContent='⭐ Level '+getPlayerLevel();if(correctCount>0&&correctCount%10===0)celebrateLevelUp();}
+    function celebrateLevelUp(){
+      const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1);canvas.className='level-fireworks';canvas.setAttribute('aria-hidden','true');document.body.appendChild(canvas);
+      const resize=()=>{canvas.width=window.innerWidth*dpr;canvas.height=window.innerHeight*dpr;canvas.style.width=window.innerWidth+'px';canvas.style.height=window.innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0);};resize();window.addEventListener('resize',resize,{once:true});
+      const colors=['#ff5da2','#ffd447','#52d9ff','#8df58b','#bd83ff','#ff875c'],particles=[];
+      function burst(x,y){for(let i=0;i<48;i++){const a=Math.PI*2*i/48+(Math.random()-.5)*.14,speed=1.5+Math.random()*4;particles.push({x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life:55+Math.random()*25,color:colors[Math.floor(Math.random()*colors.length)],size:2+Math.random()*3});}}
+      burst(innerWidth*.25,innerHeight*.3);burst(innerWidth*.75,innerHeight*.28);setTimeout(()=>burst(innerWidth*.5,innerHeight*.22),87);setTimeout(()=>burst(innerWidth*.4,innerHeight*.38),180);
+      const toast=document.createElement('div');toast.className='level-up-toast';toast.setAttribute('role','status');toast.textContent='🎉 LEVEL '+getPlayerLevel()+'! 🎉';document.body.appendChild(toast);
+      let frame=0;function draw(){ctx.clearRect(0,0,innerWidth,innerHeight);for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.055;p.vx*=.99;p.life--;ctx.globalAlpha=Math.max(0,p.life/75);ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();if(p.life<=0)particles.splice(i,1);}ctx.globalAlpha=1;if(frame++<63)requestAnimationFrame(draw);else{canvas.remove();toast.remove();}}
+      requestAnimationFrame(draw);
+    }
+    let hunger = 70;
+    let happiness = 80;
+    let answerLocked = false;
+
+    // Trivia Question Bank
+    const questions = [
+      { q: "What subatomic particle has a negative electrical charge?", options: ["Proton", "Neutron", "Electron", "Positron"], answer: 2, cat: "Science" },
+      { q: "Which planet in our solar system is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: 1, cat: "Space" },
+      { q: "What is the official term for a female rabbit?", options: ["Vixen", "Doe", "Hen", "Nanny"], answer: 1, cat: "Animals" },
+      { q: "What is the capital city of Australia?", options: ["Sydney", "Melbourne", "Canberra", "Brisbane"], answer: 2, cat: "Geography" },
+      { q: "What is the square root of 144?", options: ["10", "12", "14", "16"], answer: 1, cat: "Math" },
+      { q: "Who painted the ceiling of the Sistine Chapel?", options: ["Leonardo da Vinci", "Raphael", "Donatello", "Michelangelo"], answer: 3, cat: "Art" },
+      { q: "What happy jump does a rabbit do in the air with a twist?", options: ["Binky", "Popcorn", "Zoomie", "Hopscotch"], answer: 0, cat: "Animals" },
+      { q: "In what year did the Titanic sink on its maiden voyage?", options: ["1905", "1912", "1918", "1923"], answer: 1, cat: "History" },
+      { q: "What gas do plants absorb during photosynthesis?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"], answer: 2, cat: "Science" },
+      { q: "What is the largest ocean on Earth?", options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"], answer: 3, cat: "Geography" },
+      { q: "What color was the original cultivated carrot before orange became popular?", options: ["Blue", "Purple & Yellow", "Pink", "Black"], answer: 1, cat: "Nature" },
+      { q: "Which element has the chemical symbol 'Fe'?", options: ["Fluorine", "Iron", "Francium", "Fermium"], answer: 1, cat: "Science" },
+      { q: "How many sides does a hexagon have?", options: ["5", "6", "7", "8"], answer: 1, cat: "Math" },
+      { q: "Who wrote the play Romeo and Juliet?", options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"], answer: 1, cat: "Literature" },
+      { q: "What is the powerhouse of the cell?", options: ["Nucleus", "Ribosome", "Mitochondrion", "Golgi Body"], answer: 2, cat: "Biology" },
+      { q: "Which continent is the Sahara Desert located on?", options: ["Asia", "South America", "Africa", "Australia"], answer: 2, cat: "Geography" },
+      { q: "What Roman numeral represents the number 50?", options: ["V", "X", "L", "C"], answer: 2, cat: "Math" },
+      { q: "Which animal is a Flemish Giant?", options: ["Dog", "Pig", "Rabbit", "Goat"], answer: 2, cat: "Animals" },
+      { q: "What chemical element is diamond made of?", options: ["Carbon", "Silicon", "Titanium", "Gold"], answer: 0, cat: "Science" },
+      { q: "What is the capital of Canada?", options: ["Toronto", "Vancouver", "Montreal", "Ottawa"], answer: 3, cat: "Geography" }
+    ];
+
+    const questionBanks={easy:questions,...window.additionalQuestionBanks}; const difficultyRewards={easy:{coins:20,food:1},medium:{coins:40,food:2},hard:{coins:60,food:3}}; let selectedDifficulty="easy";
+    document.querySelectorAll("[data-difficulty]").forEach(button=>button.addEventListener("click",()=>{selectedDifficulty=button.dataset.difficulty;currentQ=0;document.querySelectorAll("[data-difficulty]").forEach(b=>{const active=b===button;b.setAttribute("aria-pressed",String(active));b.style.transform=active?"translateY(-2px)":"none";b.style.boxShadow=active?"0 4px 0 #8063a0,0 7px 12px #69508433":"0 3px 7px #07506b22";b.style.outline=active?"2px solid #bd82b5":"none";});document.getElementById("difficulty-reward").textContent=selectedDifficulty[0].toUpperCase()+selectedDifficulty.slice(1)+" · +"+difficultyRewards[selectedDifficulty].coins+" 🪙 · "+difficultyRewards[selectedDifficulty].food+" food";loadQuestion();}));
+    let currentQ = 0;
+
+    function loadQuestion() {
+      answerLocked = false;
+      const q = questionBanks[selectedDifficulty][currentQ];
+      document.getElementById('quiz-category').textContent = `✨ ${q.cat}`;
+      document.getElementById('quiz-question').textContent = q.q;
+      document.getElementById('quiz-feedback').textContent = selectedPet === 'dog' ? '🐶 A correct answer feeds Puppy a bone! 🦴' : selectedPet === 'cat' ? '🐱 A correct answer feeds Kitten a fish! 🐟' : '🐰 A correct answer feeds Bunny a carrot! 🥕';
+      const opts = document.getElementById('quiz-options');
+      opts.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = "answer";
+        btn.innerHTML = `<span class="letter">${String.fromCharCode(65 + idx)}</span> <span >${opt}</span>`;
+        btn.addEventListener('click', (event) => selectAnswer(idx, event));
+        opts.appendChild(btn);
+      });
+    }
+
+    function setAnswerButtonsDisabled(disabled) {
+      document.querySelectorAll('#quiz-options button').forEach((button) => {
+        button.disabled = disabled;
+        
+        
+      });
+    }
+
+    function advanceQuestion() {
+      currentQ = (currentQ + 1) % questionBanks[selectedDifficulty].length;
+      loadQuestion();
+    }
+
+    function updatePetStatus() {
+      document.getElementById('val-hunger').textContent = `${hunger}%`;
+      document.getElementById('bar-hunger').style.width = `${hunger}%`;
+      document.getElementById('val-happy').textContent = `${happiness}%`;
+      document.getElementById('bar-happy').style.width = `${happiness}%`;
+    }
+
+     let dogSpriteIdx = 0;
+     let catSpriteIdx = 0;
+     const petSpeedBoost={bunny:1,dog:1,cat:1};
+     const catSprites = Array.from({length:24}, (_,i) => `kitten${String(i+1).padStart(2,'0')}.png`);
+     let lastFedPet = 'bunny';
+     const dogSprites = Array.from({length:24}, (_,i) => `doggy${String(i+1).padStart(2,'0')}.png`);
+     const generationSets={bunny:[{walker:document.getElementById('bunny-walker'),img:document.getElementById('bunny-sprite-img'),stage:0}],dog:[{walker:document.getElementById('dog-walker'),img:document.getElementById('dog-sprite-img'),stage:0}],cat:[{walker:document.getElementById('cat-walker'),img:document.getElementById('cat-sprite-img'),stage:0}]};
+     const petSpriteSets={bunny:allSpriteFiles,dog:dogSprites,cat:catSprites};
+     function activeGeneration(kind){return generationSets[kind][generationSets[kind].length-1];}
+     function spawnNewborn(kind){const arena=document.getElementById('bunny-target'),walker=document.createElement('div'),img=document.createElement('img');walker.className='pet-generation pet-generation-'+kind;img.className='generation-sprite';img.alt=kind+' newborn stage 1';img.src=petSpriteSets[kind][0];walker.appendChild(img);arena.appendChild(walker);const generation={walker,img,stage:0};generationSets[kind].push(generation);walker.style.transform=`translate3d(${Math.random()*Math.max(1,arena.clientWidth-walker.offsetWidth)}px,20px,0)`;walker.addEventListener('click',()=>playPetVoice(kind));startGenerationWander(kind,generation);document.getElementById('quiz-feedback').textContent='A newborn '+kind+' joined the garden! ✨';}
+     function advanceGeneration(kind){const generation=activeGeneration(kind),files=petSpriteSets[kind];generation.stage=Math.min(files.length-1,generation.stage+1);generation.img.src=files[generation.stage];if(generation.stage===files.length-1)spawnNewborn(kind);if(kind==='bunny')currentSpriteIdx=activeGeneration(kind).stage;else if(kind==='dog')dogSpriteIdx=activeGeneration(kind).stage;else catSpriteIdx=activeGeneration(kind).stage;}
+     function startGenerationWander(kind,generation){const arena=document.getElementById('bunny-target'),walker=generation.walker,img=generation.img;let x=20+Math.random()*Math.max(1,arena.clientWidth-140),y=20,vx=kind==='dog'?-22:22,vy=12,last=0;function tick(t){const dt=Math.min((t-(last||t))/1000,.05)*(petSpeedBoost[kind]||1);last=t;const mx=Math.max(0,arena.clientWidth-walker.offsetWidth),my=Math.max(0,arena.clientHeight-walker.offsetHeight-18);x+=vx*dt;y+=vy*dt;if(x<0){x=0;vx=Math.abs(vx)}if(x>mx){x=mx;vx=-Math.abs(vx)}if(y<0){y=0;vy=Math.abs(vy)}if(y>my){y=my;vy=-Math.abs(vy)}({x,y,vx,vy}=bounceGardenPet(kind+'-'+generationSets[kind].indexOf(generation),x,y,vx,vy,walker,(nx,ny)=>{vx=nx;vy=ny;}));walker.style.transform=`translate3d(${x}px,${y}px,0)`;img.style.transform=`scaleX(${vx<0?'-1':'1'})`;requestAnimationFrame(tick)}requestAnimationFrame(tick);}
+     function updateDogDisplay() {
+       activeGeneration('dog').stage=dogSpriteIdx;activeGeneration('dog').img.src=dogSprites[dogSpriteIdx];
+       activeGeneration('cat').stage=catSpriteIdx;activeGeneration('cat').img.src=catSprites[catSpriteIdx];
+       document.getElementById('cat-stage-label').textContent = `🐱 Kitten · Stage ${catSpriteIdx+1} / 24`;
+       document.getElementById('cat-xp-text').textContent = `${catSpriteIdx+1} / 24`;
+       document.getElementById('cat-xp-bar').style.width = `${(catSpriteIdx+1)/24*100}%`;
+       document.getElementById('dog-stage-label').textContent = `🐶 Puppy · Stage ${dogSpriteIdx+1} / 24`;
+       document.getElementById('dog-xp-text').textContent = `${dogSpriteIdx+1} / 24`;
+       document.getElementById('dog-xp-bar').style.width = `${(dogSpriteIdx+1)/24*100}%`;
+       updateStageBadge();
+     }
+     function updateCatDisplay(){activeGeneration('cat').stage=catSpriteIdx;activeGeneration('cat').img.src=catSprites[catSpriteIdx];document.getElementById('cat-stage-label').textContent=`🐱 Kitten · Stage ${catSpriteIdx+1} / 24`;document.getElementById('cat-xp-text').textContent=`${catSpriteIdx+1} / 24`;document.getElementById('cat-xp-bar').style.width=`${(catSpriteIdx+1)/24*100}%`;updateStageBadge();}
+     function updateStageBadge(){ document.getElementById('stage-badge').textContent = `🐰 ${currentSpriteIdx+1}/48 · 🐶 ${dogSpriteIdx+1}/24 · 🐱 ${catSpriteIdx+1}/24`; }
+     let selectedPet = 'dog'; // Puppy preselected by default.
+    function setSelectedPet(kind) {
+      selectedPet = kind;
+      document.getElementById('select-dog').setAttribute('aria-pressed', String(kind === 'dog'));
+      document.getElementById('select-bunny').setAttribute('aria-pressed', String(kind === 'bunny'));
+      document.getElementById('select-cat').setAttribute('aria-pressed', String(kind === 'cat'));
+      document.getElementById('pet-choice-hint').textContent = kind === 'dog' ? '✨ Puppy is selected! Correct answers send a cute bone.' : kind === 'cat' ? '🐱 Kitten is selected! Correct answers send a yummy fish.' : '🌸 Bunny is selected! Correct answers send a yummy carrot.';
+      if (!answerLocked) document.getElementById('quiz-feedback').textContent = kind === 'dog' ? '🐶 A correct answer feeds Puppy a bone! 🦴' : kind === 'cat' ? '🐱 A correct answer feeds Kitten a fish! 🐟' : '🐰 A correct answer feeds Bunny a carrot! 🥕';
+    }
+    document.getElementById('select-dog').addEventListener('click', () => setSelectedPet('dog'));
+    document.getElementById('select-bunny').addEventListener('click', () => setSelectedPet('bunny'));
+    document.getElementById('select-cat').addEventListener('click', () => setSelectedPet('cat'));
+    function selectAnswer(idx, event) {
+       if (answerLocked) return;
+       answerLocked = true;
+       const question = questionBanks[selectedDifficulty][currentQ];
+       const selectedButton = event.currentTarget;
+       const answerButtons = [...document.querySelectorAll('#quiz-options button')];
+       setAnswerButtonsDisabled(true);
+       if (idx === question.answer) {
+         selectedButton.classList.add('answer-correct');
+         coins += difficultyRewards[selectedDifficulty].coins; correctCount++; updatePlayerLevel();
+         window.dispatchEvent(new Event("coins-changed"));
+         document.getElementById('coin-count').textContent = coins;
+         document.getElementById('quiz-score').textContent = `⭐ Correct Answers: ${correctCount}`;
+         playChime(659.25, 'triangle'); showCoinFloat();
+         document.getElementById('quiz-feedback').textContent = selectedPet === 'dog' ? 'Wonderful! A bone is flying to Puppy! 🦴' : selectedPet === 'cat' ? 'Wonderful! A fish is flying to Kitten! 🐟' : 'Wonderful! A carrot is flying to Bunny! 🥕';
+         feedPet(selectedPet);
+       } else {
+         selectedButton.classList.add('answer-incorrect');
+         answerButtons[question.answer].classList.add('answer-correct');
+         document.getElementById('quiz-feedback').textContent = `Oops! Correct answer: ${question.options[question.answer]}. 💥`;
+         playChime(220, 'sawtooth');
+         launchArcadeShot(selectedPet).then(() => {
+           if (selectedPet === 'dog') { dogSpriteIdx = Math.max(0,dogSpriteIdx-1); updateDogDisplay(); }
+           else if (selectedPet === 'cat') { catSpriteIdx=Math.max(0,catSpriteIdx-1); updateCatDisplay(); }
+           else { currentSpriteIdx = Math.max(0,currentSpriteIdx-1); updateBunnyDisplay(); }
+           happiness = Math.max(0,happiness-10); updatePetStatus();
+           document.getElementById('quiz-feedback').textContent = `${selectedPet === 'dog' ? 'Puppy' : selectedPet === 'cat' ? 'Kitten' : 'Bunny'} lost one evolution stage! Correct: ${question.options[question.answer]}.`;
+           setTimeout(advanceQuestion, 350);
+         });
+       }
+     }
+     async function feedPet(kind) {
+       lastFedPet=kind;
+       const reward=difficultyRewards[selectedDifficulty],foodCount=reward.food;
+       const petName=kind==='dog'?'Puppy':kind==='cat'?'Kitten':'Bunny';
+       document.getElementById('quiz-feedback').textContent=(kind==='dog'?'🦴 A bone':kind==='cat'?'🐟 A fish':'🥕 A carrot')+' is flying to '+petName+'!';
+       for(let food=0;food<foodCount;food++){
+         await launchTreat(kind);
+         playMunchSound();playPetVoice(kind);
+         hunger=Math.min(100,hunger+20);happiness=Math.min(100,happiness+10);updatePetStatus();
+         if(kind==='dog'){advanceGeneration('dog');dogSpriteIdx=activeGeneration('dog').stage;updateDogDisplay();}
+         else if(kind==='cat'){advanceGeneration('cat');catSpriteIdx=activeGeneration('cat').stage;updateCatDisplay();}
+         else{advanceGeneration('bunny');currentSpriteIdx=activeGeneration('bunny').stage;updateBunnyDisplay();}
+       }
+       petSpeedBoost[kind]=Math.min(2.4,petSpeedBoost[kind]*Math.pow(1.12,foodCount));
+       document.getElementById('quiz-feedback').textContent=petName+' enjoyed '+foodCount+' treat'+(foodCount===1?'':'s')+'! +'+reward.coins+' coins 💚';
+       setTimeout(advanceQuestion,217);
+     }
+
+     function launchTreat(kind) {
+       return new Promise(resolve=>{
+         const source = document.getElementById(kind === 'dog' ? 'select-dog' : kind==='cat' ? 'select-cat' : 'select-bunny').getBoundingClientRect();
+         const target = activeGeneration(kind).img.getBoundingClientRect();
+         const sx=source.left+source.width/2, sy=source.top+source.height/2;
+         const ex=target.left+target.width/2, ey=target.top+target.height/2;
+         const treat=document.createElement('div'); treat.className='flying-carrot';
+         if(kind==='dog'){treat.textContent='🦴';}else if(kind==='cat'){treat.textContent='🐟';}else treat.textContent='🥕';
+         treat.style.left=`${sx-22}px`;treat.style.top=`${sy-22}px`;
+         treat.style.setProperty('--flight-x',`${ex-sx}px`);treat.style.setProperty('--flight-y',`${ey-sy}px`);
+         document.body.append(treat);
+         let done=false;
+         const finish=()=>{if(done)return;done=true;treat.remove();const sprite=document.getElementById(kind==='dog'?'dog-sprite-img':kind==='cat'?'cat-sprite-img':'bunny-sprite-img');sprite.classList.remove('bunny-munch');void sprite.offsetWidth;sprite.classList.add('bunny-munch');resolve();};
+         treat.addEventListener('animationend',finish,{once:true});setTimeout(finish,367);
+       });
+     }
+    // A cartoon arcade blaster fires a glowing energy pellet at the bunny.
+    // The loss of one evolution stage happens only after impact.
+    function launchArcadeShot(kind = 'bunny') {
+      return new Promise(resolve => {
+        const bunny = activeGeneration(kind).img;
+        const rect = bunny.getBoundingClientRect();
+        const endX = rect.left + rect.width * .5;
+        const endY = rect.top + rect.height * .48;
+        const startX = Math.max(30, Math.min(window.innerWidth - 55, endX - Math.min(210, window.innerWidth * .42)));
+        const startY = Math.max(65, endY - 65);
+        const gun = document.createElement('div');
+        gun.className = 'arcade-blaster';
+        gun.textContent = '🔫';
+        gun.setAttribute('aria-hidden', 'true');
+        gun.style.left = `${startX - 25}px`;
+        gun.style.top = `${startY - 38}px`;
+        const shot = document.createElement('div');
+        shot.className = 'arcade-shot';
+        shot.setAttribute('aria-hidden', 'true');
+        shot.style.left = `${startX + 20}px`;
+        shot.style.top = `${startY}px`;
+        shot.style.setProperty('--shot-x', `${endX - startX - 20}px`);
+        shot.style.setProperty('--shot-y', `${endY - startY}px`);
+        document.body.append(gun, shot);
+        let done = false;
+        const impact = () => {
+          if (done) return;
+          done = true;
+          shot.remove(); gun.remove();
+          const flash = document.createElement('div');
+          flash.className = 'arcade-impact';
+          flash.textContent = '💥';
+          flash.setAttribute('aria-hidden', 'true');
+          flash.style.left = `${endX - 27}px`;
+          flash.style.top = `${endY - 27}px`;
+          document.body.append(flash);
+          bunny.classList.remove('bunny-hit');
+          void bunny.offsetWidth;
+          bunny.classList.add('bunny-hit');
+          playPetHurt(kind);
+          setTimeout(() => { flash.remove(); bunny.classList.remove('bunny-hit'); }, 550);
+          resolve();
+        };
+        shot.addEventListener('animationend', impact, {once:true});
+        setTimeout(impact, 254);
+      });
+    }
+
+    // Animate from the answer button's centre to the bunny sprite's centre.
+    // Resolves only after the carrot has completed its flight.
+    function launchCarrot(sourceButton) {
+      return new Promise((resolve) => {
+        const sourceRect = sourceButton.getBoundingClientRect();
+        const bunnyRect = document.getElementById('bunny-sprite-img').getBoundingClientRect();
+        const startX = sourceRect.left + sourceRect.width / 2;
+        const startY = sourceRect.top + sourceRect.height / 2;
+        const endX = bunnyRect.left + bunnyRect.width / 2;
+        const endY = bunnyRect.top + bunnyRect.height / 2;
+
+        const carrot = document.createElement('div');
+        carrot.className = 'flying-carrot';
+        carrot.textContent = '🥕';
+        carrot.setAttribute('aria-hidden', 'true');
+        carrot.style.left = `${startX - 22}px`;
+        carrot.style.top = `${startY - 22}px`;
+        carrot.style.setProperty('--flight-x', `${endX - startX}px`);
+        carrot.style.setProperty('--flight-y', `${endY - startY}px`);
+
+        let finished = false;
+        const finishFlight = () => {
+          if (finished) return;
+          finished = true;
+          carrot.remove();
+          const bunnyImg = document.getElementById('bunny-sprite-img');
+          bunnyImg.classList.remove('bunny-munch');
+          void bunnyImg.offsetWidth; // Restart the munch animation every time.
+          bunnyImg.classList.add('bunny-munch');
+          resolve();
+        };
+
+        carrot.addEventListener('animationend', finishFlight, { once: true });
+        document.body.appendChild(carrot);
+        // Fallback for browsers that do not fire animationend (e.g. reduced motion).
+        setTimeout(finishFlight, 400);
+      });
+    }
+
+    function growBunny() {
+      if (currentSpriteIdx < allSpriteFiles.length - 1) {
+        currentSpriteIdx++;
+        playChime(783.99, 'sine');
+        document.getElementById('bunny-mood').textContent = 'Mood: Growing! ✨';
+      } else {
+        document.getElementById('bunny-mood').textContent = 'Mood: Fully grown! 👑';
+        document.getElementById('quiz-feedback').textContent = 'Your bunny has reached Stage 48 — maximum evolution! Keep feeding it for coins. 🥕';
+      }
+      updateBunnyDisplay();
+    }
+
+    function updateBunnyDisplay() {
+      const stageNum = currentSpriteIdx + 1;
+      const spriteFile = allSpriteFiles[currentSpriteIdx];
+
+      // Update Header Badges & Labels
+      updateStageBadge();
+      document.getElementById('stage-title-label').textContent = `Stage ${stageNum} of 48`;
+      
+      // Update Sprite Image & File Tag
+      const imgEl = document.getElementById('bunny-sprite-img');
+      imgEl.src = spriteFile;
+      
+      // Gentle Binky Bounce Effect on Evolution
+      imgEl.parentElement.classList.add('evolving');
+      setTimeout(() => imgEl.parentElement.classList.remove('evolving'), 100);
+
+      document.getElementById('sprite-filename-tag').textContent = spriteFile;
+      
+      // Update Progress Bar Percentage
+      const pct = (stageNum / 48) * 100;
+      document.getElementById('xp-text').textContent = `${stageNum} / 48 Evolved`;
+      document.getElementById('xp-bar-inner').style.width = `${pct}%`;
+    }
+
+    // Graceful fallback when the sprite PNGs aren't alongside this HTML file.
+    document.getElementById('bunny-sprite-img').addEventListener('error', function () {
+      this.style.display = 'none';
+      let fallback = document.getElementById('bunny-emoji-fallback');
+      if (!fallback) { fallback = document.createElement('span'); fallback.id = 'bunny-emoji-fallback'; fallback.className = 'pet-fallback'; fallback.setAttribute('aria-label','Bunny'); fallback.textContent = '🐰'; this.after(fallback); }
+    });
+    document.getElementById('bunny-sprite-img').addEventListener('load', function () {
+      this.style.display = ''; const fallback = document.getElementById('bunny-emoji-fallback'); if (fallback) fallback.remove();
+    });
+
+    // Bright-green reward floats inside the black Bunny Lagoon.
+    function showCoinFloat() {
+      const lagoon = document.querySelector('.habitat');
+      const bunny = document.getElementById('bunny-walker');
+      const lagoonRect = lagoon.getBoundingClientRect();
+      const bunnyRect = bunny.getBoundingClientRect();
+      const el = document.createElement('span');
+      el.className = 'coin-float';
+      el.textContent = '+' + difficultyRewards[selectedDifficulty].coins + ' coins';
+      el.style.left = `${Math.max(12, Math.min(lagoon.clientWidth - 90, bunnyRect.left - lagoonRect.left + bunnyRect.width / 2 - 32))}px`;
+      el.style.top = `${Math.max(72, bunnyRect.top - lagoonRect.top + bunnyRect.height / 2)}px`;
+      lagoon.appendChild(el);
+      let step = 0;
+      // Each of ten steps rises 10px and fades 10%. 40ms per step
+      // makes the reward perceptible on mobile and 60Hz displays.
+      const timer = setInterval(() => {
+        step++;
+        el.style.opacity = String(Math.max(0, 1 - step * .1));
+        el.style.transform = `translateY(${-10 * step}px)`;
+        if (step >= 10) { clearInterval(timer); el.remove(); }
+      }, 40);
+    }
+
+    // Shared positions let each pet rebound when its sprite meets another.
+    const gardenPetMotion={};const gardenCollisionAt=new Map();
+    function bounceGardenPet(name,x,y,vx,vy,walker,setVelocity){
+      const body={x,y,vx,vy,width:walker.offsetWidth,height:walker.offsetHeight,setVelocity};gardenPetMotion[name]=body;
+      for(const [otherName,other] of Object.entries(gardenPetMotion)){if(otherName===name)continue;
+        const dx=(x+body.width/2)-(other.x+other.width/2),dy=(y+body.height/2)-(other.y+other.height/2),rx=(body.width+other.width)*.34,ry=(body.height+other.height)*.34;
+        if(Math.abs(dx)>=rx||Math.abs(dy)>=ry)continue;const key=[name,otherName].sort().join(':');if(performance.now()-(gardenCollisionAt.get(key)||0)<400)continue;gardenCollisionAt.set(key,performance.now());
+        if(Math.abs(dx)/rx>Math.abs(dy)/ry){vx=dx<0?-Math.abs(vx):Math.abs(vx);other.vx=dx<0?Math.abs(other.vx):-Math.abs(other.vx);x=other.x+(dx<0?-rx:rx)-body.width/2+other.width/2;}
+        else{vy=dy<0?-Math.abs(vy):Math.abs(vy);other.vy=dy<0?Math.abs(other.vy):-Math.abs(other.vy);y=other.y+(dy<0?-ry:ry)-body.height/2+other.height/2;}
+        other.setVelocity(other.vx,other.vy);body.x=x;body.y=y;body.vx=vx;body.vy=vy;
+      }return{x,y,vx,vy};
+    }
+    // Reflect off the edges and gently wander with occasional direction changes.
+    function startBunnyWander() {
+      const arena = document.getElementById('bunny-target');
+      const walker = document.getElementById('bunny-walker');
+      const sprite = document.getElementById('bunny-sprite-img');
+      let x = 10, y = 10, vx = 24, vy = 14, last = 0, nextTurn = 0;
+      function tick(t) {
+        const dt = Math.min((t - (last || t)) / 1000, .05)*petSpeedBoost.bunny;
+        last = t;
+        const maxX = Math.max(0, arena.clientWidth - walker.offsetWidth);
+        const maxY = Math.max(0, arena.clientHeight - walker.offsetHeight - 18);
+        if (t > nextTurn) {
+          vx += (Math.random() - .5) * 23;
+          vy += (Math.random() - .5) * 19;
+          vx = Math.sign(vx || 1) * Math.max(13, Math.min(38, Math.abs(vx)));
+          vy = Math.max(-28, Math.min(28, vy));
+          nextTurn = t + 700 + Math.random() * 1800;
+        }
+        x += vx * dt; y += vy * dt;
+        if (x <= 0) { x = 0; vx = Math.abs(vx); }
+        if (x >= maxX) { x = maxX; vx = -Math.abs(vx); }
+        if (y <= 0) { y = 0; vy = Math.abs(vy); }
+        if (y >= maxY) { y = maxY; vy = -Math.abs(vy); }
+        ({x,y,vx,vy}=bounceGardenPet('bunny',x,y,vx,vy,walker,(nx,ny)=>{vx=nx;vy=ny;}));
+        walker.style.transform = `translate3d(${x}px,${y}px,0)`;
+        sprite.parentElement.style.setProperty('--facing', vx < 0 ? '-1' : '1');
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    startBunnyWander();
+    function startDogWander(){
+      const arena=document.getElementById('bunny-target'),walker=document.getElementById('dog-walker'),sprite=document.getElementById('dog-sprite-img');
+      let x=180,y=115,vx=-23,vy=13,last=0,nextTurn=0;
+      function tick(t){
+        const dt=Math.min((t-(last||t))/1000,.05)*petSpeedBoost.dog;last=t;
+        const maxX=Math.max(0,arena.clientWidth-walker.offsetWidth),maxY=Math.max(0,arena.clientHeight-walker.offsetHeight-18);
+        if(t>nextTurn){vx+=(Math.random()-.5)*19;vy+=(Math.random()-.5)*16;vx=Math.sign(vx||1)*Math.max(12,Math.min(35,Math.abs(vx)));vy=Math.max(-24,Math.min(24,vy));nextTurn=t+900+Math.random()*1800;}
+        x+=vx*dt;y+=vy*dt;
+        if(x<=0){x=0;vx=Math.abs(vx)}if(x>=maxX){x=maxX;vx=-Math.abs(vx)}
+        if(y<=0){y=0;vy=Math.abs(vy)}if(y>=maxY){y=maxY;vy=-Math.abs(vy)}
+        ({x,y,vx,vy}=bounceGardenPet('dog',x,y,vx,vy,walker,(nx,ny)=>{vx=nx;vy=ny;}));
+        walker.style.transform=`translate3d(${x}px,${y}px,0)`;sprite.parentElement.style.setProperty('--facing',vx<0?'1':'-1');requestAnimationFrame(tick);
+      }requestAnimationFrame(tick);
+    }
+    startDogWander();
+    function startCatWander(){
+      const arena=document.getElementById('bunny-target'),walker=document.getElementById('cat-walker'),sprite=document.getElementById('cat-sprite-img');
+      let x=300,y=30,vx=19,vy=12,last=0,nextTurn=0;
+      function tick(t){
+        const dt=Math.min((t-(last||t))/1000,.05)*petSpeedBoost.cat;last=t;
+        const maxX=Math.max(0,arena.clientWidth-walker.offsetWidth),maxY=Math.max(0,arena.clientHeight-walker.offsetHeight-18);
+        if(t>nextTurn){vx+=(Math.random()-.5)*18;vy+=(Math.random()-.5)*15;vx=Math.sign(vx||1)*Math.max(12,Math.min(32,Math.abs(vx)));vy=Math.max(-22,Math.min(22,vy));nextTurn=t+800+Math.random()*1700;}
+        x+=vx*dt;y+=vy*dt;
+        if(x<=0){x=0;vx=Math.abs(vx)}if(x>=maxX){x=maxX;vx=-Math.abs(vx)}
+        if(y<=0){y=0;vy=Math.abs(vy)}if(y>=maxY){y=maxY;vy=-Math.abs(vy)}
+        ({x,y,vx,vy}=bounceGardenPet('cat',x,y,vx,vy,walker,(nx,ny)=>{vx=nx;vy=ny;}));
+        walker.style.transform=`translate3d(${x}px,${y}px,0)`;
+        sprite.parentElement.style.setProperty('--facing',vx<0?'-1':'1');requestAnimationFrame(tick);
+      }requestAnimationFrame(tick);
+    }
+    startCatWander();
+    document.getElementById('dog-sprite-img').addEventListener('error',function(){this.style.visibility='hidden';});
+    document.getElementById('dog-sprite-img').addEventListener('load',function(){this.style.visibility='visible';});
+
+    // Initialize
+    loadQuestion();
+    updateBunnyDisplay();
+    updateDogDisplay();
+    updateCatDisplay();
+    updatePetStatus();
+  </script>
+<script src="store.js"></script>
+</body>
+</html>
+
